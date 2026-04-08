@@ -534,6 +534,21 @@ const SLOTS    = (()=>{ const s=[]; for(let h=7;h<22;h++){s.push(ph(h)+':00');s.
 /* ══════════════════════════════════════════════
    AUTH
 ══════════════════════════════════════════════ */
+// DEBUG TEMPORANEO — rimuovi dopo aver risolto
+auth.onAuthStateChanged(async u => {
+  if(u) {
+    console.log('=== DEBUG ===');
+    console.log('UID utente loggato:', u.uid);
+    console.log('Email:', u.email);
+    try {
+      const test = await db.collection('students').doc(u.uid).get();
+      console.log('Documento esiste:', test.exists);
+      console.log('Dati:', test.data());
+    } catch(e) {
+      console.log('Errore lettura:', e.code, e.message);
+    }
+  }
+});
 auth.onAuthStateChanged(async u => {
   document.getElementById('loader').style.display = 'none';
   if(u) {
